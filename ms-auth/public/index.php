@@ -66,4 +66,37 @@ $app->get('/login-test', function ($request, $response) {
         );
 });
 
+$app->get('/login-admin', function ($request, $response) {
+
+    $usuario = Usuario::where(
+        'usuario',
+        'admin'
+    )->first();
+
+    if ($usuario->contrasena == 'admin123') {
+
+        $response->getBody()->write(
+            json_encode([
+                'mensaje' => 'Login correcto',
+                'usuario' => $usuario
+            ])
+        );
+
+    } else {
+
+        $response->getBody()->write(
+            json_encode([
+                'mensaje' => 'Credenciales incorrectas'
+            ])
+        );
+
+    }
+
+    return $response
+        ->withHeader(
+            'Content-Type',
+            'application/json'
+        );
+});
+
 $app->run();
