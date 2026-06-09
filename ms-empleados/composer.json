@@ -1,0 +1,20 @@
+{
+    "name": "juanesteban/ms-empleados",
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Juan Mancipe",
+            "email": "jemancipe@uniboyaca.edu.co"
+        }
+    ],
+    "require": {
+        "slim/slim": "^4.15",
+        "slim/psr7": "^1.8",
+        "illuminate/database": "^12.62",
+        "vlucas/phpdotenv": "^5.6"
+    }
+}
