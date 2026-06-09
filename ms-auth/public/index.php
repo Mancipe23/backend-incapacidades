@@ -5,6 +5,7 @@ require __DIR__ . '/../vendor/autoload.php';
 use Slim\Factory\AppFactory;
 use Dotenv\Dotenv;
 use App\Models\Usuario;
+use App\Controllers\AuthController;
 
 // Cargar .env
 $dotenv = Dotenv::createImmutable(__DIR__ . '/../');
@@ -38,6 +39,31 @@ $app->get('/usuarios', function ($request, $response) {
 
     return $response
         ->withHeader('Content-Type', 'application/json');
+});
+
+$authController = new AuthController();
+
+$app->post(
+    '/login',
+    [$authController, 'login']
+);
+
+$app->get('/login-test', function ($request, $response) {
+
+    $usuario = Usuario::where(
+        'usuario',
+        'admin'
+    )->first();
+
+    $response->getBody()->write(
+        json_encode($usuario)
+    );
+
+    return $response
+        ->withHeader(
+            'Content-Type',
+            'application/json'
+        );
 });
 
 $app->run();
