@@ -16,7 +16,16 @@ require __DIR__ . '/../app/Config/database.php';
 // Crear app Slim
 $app = AppFactory::create();
 
+$app->setBasePath('/backend-incapacidades/ms-auth/public');
+
 $app->addBodyParsingMiddleware();
+
+$app->get('/', function ($request, $response) {
+
+    $response->getBody()->write('Slim funcionando');
+
+    return $response;
+});
 
 // Ruta de prueba
 $app->get('/usuarios', function ($request, $response) {
