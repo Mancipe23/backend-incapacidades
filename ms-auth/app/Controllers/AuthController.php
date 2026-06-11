@@ -51,9 +51,19 @@ class AuthController
                 );
         }
 
+        $token = bin2hex(
+            random_bytes(32)
+        );
+
+        $usuario->token = $token;
+        $usuario->sesion_activa = 1;
+
+        $usuario->save();
+
         $response->getBody()->write(
             json_encode([
                 'mensaje' => 'Login correcto',
+                'token' => $token,
                 'usuario' => $usuario
             ])
         );
