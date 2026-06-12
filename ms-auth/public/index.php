@@ -48,6 +48,11 @@ $app->post(
     [$authController, 'login']
 );
 
+$app->post(
+    '/logout',
+    [$authController, 'logout']
+);
+
 $app->get('/login-test', function ($request, $response) {
 
     $usuario = Usuario::where(

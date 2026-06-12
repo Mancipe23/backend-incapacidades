@@ -50,4 +50,62 @@ $app->get('/incapacidades', function ($request, $response) {
         );
 });
 
+$app->post('/incapacidades', function ($request, $response) {
+
+    $data = $request->getParsedBody();
+
+    $dias =
+        (
+            strtotime($data['fecha_fin'])
+            -
+            strtotime($data['fecha_inicio'])
+        ) / 86400 + 1;
+
+    $incapacidad =
+        Incapacidad::create([
+
+            'empleado_id' =>
+                $data['empleado_id'],
+
+            'fecha_inicio' =>
+                $data['fecha_inicio'],
+
+            'fecha_fin' =>
+                $data['fecha_fin'],
+
+            'tipo' =>
+                $data['tipo'],
+
+            'diagnostico_general' =>
+                $data['diagnostico_general'],
+
+            'entidad_medica' =>
+                $data['entidad_medica'],
+
+            'observaciones' =>
+                $data['observaciones'],
+
+            'dias_incapacidad' =>
+                $dias,
+
+            'estado' =>
+                'registrada'
+        ]);
+
+    $response->getBody()->write(
+        json_encode([
+            'mensaje' =>
+                'Incapacidad registrada',
+            'data' =>
+                $incapacidad
+        ])
+    );
+
+    return $response
+        ->withHeader(
+            'Content-Type',
+            'application/json'
+        );
+});
+
 $app->run();

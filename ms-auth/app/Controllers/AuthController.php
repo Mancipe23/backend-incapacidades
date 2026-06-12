@@ -74,4 +74,50 @@ class AuthController
                 'application/json'
             );
     }
+
+    public function logout($request, $response)
+{
+    $data = $request->getParsedBody();
+
+    $usuario = Usuario::where(
+        'token',
+        $data['token']
+    )->first();
+
+    if (!$usuario) {
+
+        $response->getBody()->write(
+            json_encode([
+                'mensaje' =>
+                    'Token no válido'
+            ])
+        );
+
+        return $response
+            ->withStatus(401)
+            ->withHeader(
+                'Content-Type',
+                'application/json'
+            );
+    }
+
+    $usuario->token = null;
+
+    $usuario->sesion_activa = 0;
+
+    $usuario->save();
+
+    $response->getBody()->write(
+        json_encode([
+            'mensaje' =>
+                'Sesión cerrada'
+        ])
+    );
+
+    return $response
+        ->withHeader(
+            'Content-Type',
+            'application/json'
+        );
+    }
 }

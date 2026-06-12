@@ -50,4 +50,43 @@ $app->get('/seguimientos', function ($request, $response) {
         );
 });
 
+$app->post('/seguimientos', function ($request, $response) {
+
+    $data = $request->getParsedBody();
+
+    $seguimiento = Seguimiento::create([
+
+        'incapacidad_id' =>
+            $data['incapacidad_id'],
+
+        'fecha' =>
+            $data['fecha'],
+
+        'comentario' =>
+            $data['comentario'],
+
+        'estado' =>
+            $data['estado'],
+
+        'usuario_responsable' =>
+            $data['usuario_responsable']
+
+    ]);
+
+    $response->getBody()->write(
+        json_encode([
+            'mensaje' =>
+                'Seguimiento registrado',
+            'data' =>
+                $seguimiento
+        ])
+    );
+
+    return $response
+        ->withHeader(
+            'Content-Type',
+            'application/json'
+        );
+});
+
 $app->run();
